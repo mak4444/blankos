@@ -14,7 +14,9 @@
 #define RIGHT_SHIFT_RELEASED    0xB6
 
 char keyboard_getchar();
-int keyboard_has_input();
+char sc_keyboard_getchar();
+int sc_keyboard_has_input();
 char keyboard_getchar_non_blocking();
+extern int shift_pressed;
 
 #endif
