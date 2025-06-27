@@ -17,5 +17,5 @@ void strcat(char* dest, const char* src);
 // Safer functions
 size_t strnlen(const char* str, size_t max_len);
 void strncat(char* dest, const char* src, size_t n);
-
+unsigned long strtoul(const char* str, char** endptr, int base);
 #endif
