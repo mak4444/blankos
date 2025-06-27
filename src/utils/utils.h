@@ -44,6 +44,7 @@ void program_lspci();
 void program_navalbattle();
 void program_conway();
 void program_snake();
+void program_forth();
 
 // Binaries loading and execution
 void program_exec();
