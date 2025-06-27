@@ -1,10 +1,10 @@
-CC = i386-elf-7.5.0-Linux-x86_64/bin/i386-elf-gcc
+CC = i386-elf-8.2.0-Linux-x86_64/bin/i386-elf-gcc
 CFLAGS = -ffreestanding -g -Wall -Wextra -mno-sse -mno-mmx -mno-avx -march=i386 -c -I src/
 LD = ld
 LDFLAGS = -T link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf
-AR = i386-elf-7.5.0-Linux-x86_64/bin/i386-elf-ar
+AR = i386-elf-8.2.0-Linux-x86_64/bin/i386-elf-ar
 
 SRC_DIR = src
 KERNEL_DIR = $(SRC_DIR)/kernel
@@ -23,8 +23,8 @@ PROGRAM_SOURCES = $(wildcard $(PROGRAMS_DIR)/*.c)
 OBJECTS = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(C_SOURCES:.c=.o) $(ASM_SOURCES:.s=.o)) 
 PROGRAM_OBJECTS = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(PROGRAM_SOURCES:.c=.o))
 
-TOOLCHAIN_SRC = https://newos.org/toolchains/i386-elf-7.5.0-Linux-x86_64.tar.xz
-TOOLCHAIN_FILE = i386-elf-7.5.0-Linux-x86_64.tar.xz
+TOOLCHAIN_SRC = https://newos.org/toolchains/i386-elf-8.2.0-Linux-x86_64.tar.xz
+TOOLCHAIN_FILE = i386-elf-8.2.0-Linux-x86_64.tar.xz
 
 FONT_OBJ = $(OBJ_DIR)/fonts/viscii10-8x16.o
 FONT_SRC = $(FONTS_DIR)/viscii10-8x16.psfu
