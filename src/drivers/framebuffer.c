@@ -58,6 +58,12 @@ void putpixel(uint32_t* fb, int pitch, int bpp, int x, int y, uint32_t color)
 	*pixel_addr = color;
 }
 
+void switchpixel(uint32_t* fb, int pitch, int bpp, int x, int y, uint32_t color)
+{
+	uint32_t* pixel_addr = (uint32_t*)((uint8_t*)fb + y * pitch + x *(bpp / 8));
+	*pixel_addr ^= color;
+}
+
 void draw_char(unsigned short int c, int cx, int cy, uint32_t fg, uint32_t bg)
 {
 	PSF_font *font = (PSF_font*)&FONT_START;
