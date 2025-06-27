@@ -40,7 +40,8 @@ typedef struct {
     uint32_t width;         /* width in pixels */
 } PSF_font;
 
-void putpixel(uint32_t* fb, int pitch, int bpp, int x, int y, uint32_t color); 
+void putpixel(uint32_t* fb, int pitch, int bpp, int x, int y, uint32_t color);
+void switchpixel(uint32_t* fb, int pitch, int bpp, int x, int y, uint32_t color);
 void draw_char(unsigned short int c, int cx, int cy, uint32_t fg, uint32_t bg);
 void scroll();
 void psf_init();
