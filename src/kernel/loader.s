@@ -31,8 +31,8 @@ CHECKSUM          equ -(MAGIC_NUMBER + FLAGS + HEADER_LEN)
   dw 5			; 2
   dw 0			; 2
   dd 20			; 4
-  dd 1920		; 4
-  dd 1080		; 4
+  dd 800		; 4
+  dd 600		; 4
   dd 32			; 4
 
 ; End of tags
