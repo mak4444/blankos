@@ -91,13 +91,20 @@ unsigned char kbdus_shift[128] =
 static char keyboard_buffer[KEYBOARD_BUFFER_SIZE];
 static unsigned int keyboard_buffer_start = 0;
 static unsigned int keyboard_buffer_end = 0;
-static int shift_pressed = 0;
+int shift_pressed = 0;
+
+static char sc_keyboard_buffer[KEYBOARD_BUFFER_SIZE];
+static unsigned int sc_keyboard_buffer_start = 0;
+static unsigned int sc_keyboard_buffer_end = 0;
 
 void keyboard_handler()
 {
 	unsigned char scancode;
 
 	scancode = inb(0x60);
+
+	sc_keyboard_buffer[sc_keyboard_buffer_end] = scancode;
+	sc_keyboard_buffer_end = (sc_keyboard_buffer_end+1) % KEYBOARD_BUFFER_SIZE;
 
 	if (scancode & 0x80)
 	{
@@ -133,21 +140,29 @@ void keyboard_install()
 }
 
 char keyboard_getchar()
-{
-	while (keyboard_buffer_start == keyboard_buffer_end);
+{       draw_cursor(white);
+	while (!keyboard_has_input());
 
 	char c = keyboard_buffer[keyboard_buffer_start];
 	keyboard_buffer_start = (keyboard_buffer_start+1) % KEYBOARD_BUFFER_SIZE;
+	erase_cursor();
 	return c;
 }
 
 int keyboard_has_input()
 {
+	if ( (global_ticks & 0x1f) == 0)
+	{
+		draw_cursor(white);
+	} else if ( (global_ticks & 0x1f) == 0x10 ) {
+		erase_cursor();
+	}
+
 	return keyboard_buffer_start != keyboard_buffer_end;
 }
 
 char keyboard_getchar_non_blocking()
-{
+{       
 	if (keyboard_has_input())
 	{
 		char c = keyboard_buffer[keyboard_buffer_start];
@@ -156,3 +171,17 @@ char keyboard_getchar_non_blocking()
 	}
 	return 0;
 }
+
+char sc_keyboard_getchar()
+{	while (sc_keyboard_buffer_start == sc_keyboard_buffer_end);
+
+	char c = sc_keyboard_buffer[sc_keyboard_buffer_start];
+	sc_keyboard_buffer_start = (sc_keyboard_buffer_start+1) % KEYBOARD_BUFFER_SIZE;
+	return c;
+}
+
+int sc_keyboard_has_input()
+{
+	return sc_keyboard_buffer_start != sc_keyboard_buffer_end;
+}
+
