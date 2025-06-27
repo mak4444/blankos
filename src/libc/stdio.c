@@ -14,7 +14,8 @@
 extern uint32_t* framebuffer;
 extern uint32_t VGA_WIDTH; 
 extern uint32_t VGA_HEIGHT;
-unsigned int VGA_X = 0, VGA_Y = 0;
+uint32_t VGA_X = 0, VGA_Y = 0;
+uint32_t S_VGA_X = (uint32_t)-1 , S_VGA_Y = 0; S_COLOR = white;
 
 extern int scanline;
 
@@ -28,15 +29,21 @@ int get_cursor_y()
 	return VGA_Y;
 }
 
-void draw_cursor(uint32_t color)
+void switch_cursor()
 {
 	for (int y=12; y<CURSOR_HEIGHT; y++)
 	{
 		for (int x=0; x<CURSOR_WIDTH; x++)
 		{
-			putpixel(framebuffer, scanline, 32, VGA_X * CURSOR_WIDTH + x, VGA_Y * CURSOR_HEIGHT + y, color);
+			switchpixel(framebuffer, scanline, 32, S_VGA_X * CURSOR_WIDTH + x, S_VGA_Y * CURSOR_HEIGHT + y, S_COLOR);
 		}
 	}
+}
+
+void draw_cursor(uint32_t color)
+{	if ( S_VGA_X != (uint32_t)-1) return;
+	S_VGA_X = VGA_X; S_VGA_Y = VGA_Y; S_COLOR = color;
+	switch_cursor();
 }
 
 void draw_pixel(int x, int y, uint32_t color) //high level wrapper for putpixel
@@ -60,15 +67,15 @@ void draw_square(int x, int y, uint32_t color, int size)
 
 void erase_cursor()
 {
-	draw_cursor(black);
+	if ( S_VGA_X == (uint32_t)-1) return;
+	switch_cursor();
+	S_VGA_X = (uint32_t)-1;
 }
 
 void move_cursor(int x, int y)
 {
-	erase_cursor();
 	VGA_X = x;
 	VGA_Y = y;
-	draw_cursor(white);
 }
 
 // stdio wrapper for draw_char in graphics mode
